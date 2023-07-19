@@ -2,11 +2,13 @@
 
 class APIManager {
     constructor() {
-        this.data = {}
+        this._data = {}
         this.parseNewData()
     }
 
-
+    get data() {
+        return this._data
+    }
 
     returnPromise = function(url) {
         return new Promise((resolve, reject) =>
@@ -60,24 +62,25 @@ class APIManager {
     parseNewData = () => {
         this.requestNewData()
         .then(promiseResults => {
-            let [users, quote, pokemon, meat] = promiseResults
+            let [users, quote, pokemon, about] = promiseResults
             
-            console.log(users)
-            console.log(quote)
-            console.log(pokemon)
-            console.log(meat)
-            this.data = {
+            // console.log(users)
+            // console.log(quote)
+            // console.log(pokemon)
+            // console.log(meat)
+            this._data = {
                 mainUser: users.results[0],
                 friends: users.results.slice(1),
                 quote: quote,
                 pokemon: pokemon,
-                about: meat
+                about: about
               };
 
-              console.log(this.data)
+
+            //console.log(this.data)
 
         })
-    }
+        .catch(err => console.log(err))    }
 
 
 

@@ -27,16 +27,15 @@
             </div>	
         </div>	
         <div class="buttons">	
-            <button>Load User Data</button>	
-            <button>Display User</button>	
+            <button id="generate-user">Generate User</button>	
         </div>	
     </div>
     
     <script id="user-template" type="text/x-handlebars-template">
-        <img id="profile-pic" src={{picture}} alt="" />
+        <img id="profile-pic" src={{picture.medium}} alt="" />
         <div class="user-info">
-          <p>{{firstName}} {{lastName}}</p>
-          <p>{{city}}, {{state}}</p>
+          <p>{{name.first}} {{name.last}}</p>
+          <p>{{location.city}}, {{location.state}}</p>
         </div>
       </script>
   
@@ -52,6 +51,16 @@
         <p>{{quoteText}}</p>
         <p>Kanye West</p>
       </script>    
+
+      <script id="pokemon-template" type="text/x-handlebars-template">
+        <img id="pokemon-image" src={{imageUrl}} alt="" />
+        <p id="pokemon-text">Favorite pokemon: {{name}}</p>
+      </script>
+  
+      <script id="about-template" type="text/x-handlebars-template">
+        <p class="meat-text">About me:<br />{{about}}</p>
+      </script>
+  
 
     <script src="APIManager.js"></script>
     <script src="Renderer.js"></script>
