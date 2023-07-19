@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Indie+Flower" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
     <link rel="stylesheet" type="text/css" media="screen" href="style.css" />
 
 </head>
@@ -29,6 +31,31 @@
             <button>Display User</button>	
         </div>	
     </div>
+    
+    <script id="user-template" type="text/x-handlebars-template">
+        <img id="profile-pic" src={{picture}} alt="" />
+        <div class="user-info">
+          <p>{{firstName}} {{lastName}}</p>
+          <p>{{city}}, {{state}}</p>
+        </div>
+      </script>
+  
+      <script id="friends-template" type="text/x-handlebars-template">
+        <ul>
+          {{#each friends}}
+            <li>{{firstName}} {{lastName}}</li>
+          {{/each}}
+        </ul>
+      </script>
+
+      <script id="quote-template" type="text/x-handlebars-template">
+        <p>{{quoteText}}</p>
+        <p>Kanye West</p>
+      </script>    
+
+    <script src="APIManager.js"></script>
+    <script src="Renderer.js"></script>
+    <script src="main.js"></script>
 </body>
 
 </html>
