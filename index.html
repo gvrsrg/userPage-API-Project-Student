@@ -42,23 +42,26 @@
       <script id="friends-template" type="text/x-handlebars-template">
         <ul>
           {{#each friends}}
-            <li>{{firstName}} {{lastName}}</li>
+            <li>{{name.first}} {{name.last}}</li>
           {{/each}}
         </ul>
       </script>
 
       <script id="quote-template" type="text/x-handlebars-template">
-        <p>{{quoteText}}</p>
+        <p>Favourite quote:{{quote}}</p>
         <p>Kanye West</p>
       </script>    
 
       <script id="pokemon-template" type="text/x-handlebars-template">
-        <img id="pokemon-image" src={{imageUrl}} alt="" />
+        <img id="pokemon-image" src={{pictureUrl}} alt="" />
         <p id="pokemon-text">Favorite pokemon: {{name}}</p>
       </script>
   
-      <script id="about-template" type="text/x-handlebars-template">
-        <p class="meat-text">About me:<br />{{about}}</p>
+      <script id="meat-template" type="text/x-handlebars-template">
+        <p class="meat-text">About me:</p>
+        {{#each about}}
+        <p>{{this}}</p>
+        {{/each}}
       </script>
   
 

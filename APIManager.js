@@ -3,7 +3,7 @@
 class APIManager {
     constructor() {
         this._data = {}
-        this.parseNewData()
+//        this.parseNewData()
     }
 
     get data() {
@@ -27,7 +27,7 @@ class APIManager {
 
 
     requestNewUsers = (num) => {
-        let url = `https://randomuser.me/api/?results=${num}`
+        let url = `https://randomuser.me/api/?results=${num}&inc=name,location,picture`
         return this.returnPromise(url)
     }
 
@@ -45,12 +45,12 @@ class APIManager {
     }
 
     requestNewMeat = () => {
-        let url = "https://baconipsum.com/api/?type=meat-and-filler&paras=1"
+        let url = "https://baconipsum.com/api/?type=meat-and-filler&paras=3"
         return this.returnPromise(url)
     }
 
 
-    requestNewData = () => {
+    requestNewData = async () => {
         const promiseUsers = this.requestNewUsers(7)
         const promiseKanye = this.requestNewKanyeQuote()
         const promisePokemon = this.requestNewPokemon()
@@ -59,9 +59,9 @@ class APIManager {
 
     }
 
-    parseNewData = () => {
-        this.requestNewData()
-        .then(promiseResults => {
+    parseNewData = async () => {
+        const promiseResults = await this.requestNewData()
+//        .then(promiseResults => {
             let [users, quote, pokemon, about] = promiseResults
             
             // console.log(users)
@@ -72,16 +72,20 @@ class APIManager {
                 mainUser: users.results[0],
                 friends: users.results.slice(1),
                 quote: quote,
-                pokemon: pokemon,
-                about: about
+                pokemon: {name:pokemon.name,
+                          pictureUrl: pokemon.sprites.front_default},
+                about: {about:about}
               };
 
 
             //console.log(this.data)
 
-        })
-        .catch(err => console.log(err))    }
+//        })
+//        .catch(err => console.log(err))    }
 
+
+        return promiseResults
+    }
 
 
 }
