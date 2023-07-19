@@ -45,7 +45,7 @@ class APIManager {
     }
 
     requestNewMeat = () => {
-        let url = "https://baconipsum.com/api/?type=meat-and-filler&paras=3"
+        let url = "https://baconipsum.com/api/?type=meat-and-filler&paras=2"
         return this.returnPromise(url)
     }
 

@@ -8,7 +8,12 @@ class Renderer {
         this.pokemonContainer = $(".pokemon-container")
         this.friendsContainer = $(".friends-container")
         //this.renderAll(data)
-
+        Handlebars.registerHelper("properCase", function (str) {
+            let capitalizedStr = ""
+            capitalizedStr += str[0].toUpperCase(); //add the first letter of the str, capitalized
+            capitalizedStr += str.slice(1) //add the rest of str normallyreturn capitalizedStr
+            return capitalizedStr
+          });
 
         
         }
