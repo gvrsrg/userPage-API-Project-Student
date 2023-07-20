@@ -48,13 +48,15 @@
       </script>
 
       <script id="quote-template" type="text/x-handlebars-template">
-        <p>Favourite quote:{{quote}}</p>
+        <p>Favourite quote: {{quote}}</p>
         <p>Kanye West</p>
       </script>    
 
       <script id="pokemon-template" type="text/x-handlebars-template">
+        <img id="pokemon-gif" src={{gifUrl}} alt="" />
+        <br>
         <img id="pokemon-image" src={{pictureUrl}} alt="" />
-        <p id="pokemon-text">Favorite pokemon: {{properCase name}}</p>
+        <p id="pokemon-text">Favorite pokemon: {{properCase name}} ({{type}})</p>
       </script>
   
       <script id="meat-template" type="text/x-handlebars-template">

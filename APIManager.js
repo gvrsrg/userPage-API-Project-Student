@@ -36,14 +36,28 @@ class APIManager {
         return this.returnPromise(url)
     }
 
-    requestNewPokemon = () => {
+    getGif = (word) => {
+        const apiKey = "AipLyRs9DHlNJaqGmmYtSWKtE87g6WfT";
+        let gifSearch = `http://api.giphy.com/v1/gifs/search?q=${word}&api_key=${apiKey}&limit=1`;
+        return new Promise((resolve, reject) => {
+          $.get(gifSearch).then((responce) => {
+            resolve(responce);
+//            console.log(responce.data[0]);
+          });
+        });
+      };
+
+    requestNewPokemon = async() => {
         const maxPokemonId = 949
         const getRndId = (max) => Math.floor(Math.random() * max) || 1
         const url = `https://pokeapi.co/api/v2/pokemon/${getRndId(maxPokemonId)}`
-        return this.returnPromise(url)        
+        const pokemon = await this.returnPromise(url)
+        
+        let gifPromise = this.getGif(pokemon.name)
 
+        return Promise.all([pokemon,gifPromise])
     }
-
+    
     requestNewMeat = () => {
         let url = "https://baconipsum.com/api/?type=meat-and-filler&paras=2"
         return this.returnPromise(url)
@@ -59,6 +73,47 @@ class APIManager {
 
     }
 
+// make{some}Object - making results pretty
+// if API provider changes format of the result - that's where we convert it to our format
+
+    makePokemonObject = (pokemonResult) => {
+        //pokemonResult - array
+        //[0] - pokemon API object
+        //[1] - giphy API object
+
+        let gifPath = "";
+        try {
+            gifPath = pokemonResult[1].data[0].images.fixed_height_still.url
+        
+        } catch (err) {
+            gifPath = "https://media.giphy.com/media/g01ZnwAUvutuK8GIQn/giphy.gif"
+        }
+    
+        const pokemon = {
+            name:pokemonResult[0].name,
+            type:pokemonResult[0].types[0].type.name,
+            pictureUrl: pokemonResult[0].sprites.front_default,
+            gifUrl: gifPath}
+        return pokemon
+    }
+    
+    makeUserObject = (userResult) => {
+        return userResult.results[0]
+    }
+    
+    makeFriendsObject = (userResult) => {
+        return userResult.results.slice(1)
+    }
+    
+    makeQuoteObject = (quoteResult) => {
+        return quoteResult
+    }
+
+    makeAboutObject = (aboutResult) => {
+        return {about:aboutResult}
+    }    
+
+
     parseNewData = async () => {
         const promiseResults = await this.requestNewData()
 //        .then(promiseResults => {
@@ -69,12 +124,14 @@ class APIManager {
             // console.log(pokemon)
             // console.log(meat)
             this._data = {
-                mainUser: users.results[0],
-                friends: users.results.slice(1),
-                quote: quote,
-                pokemon: {name:pokemon.name,
-                          pictureUrl: pokemon.sprites.front_default},
-                about: {about:about}
+                mainUser: this.makeUserObject(users),
+                friends: this.makeFriendsObject(users),
+                quote: this.makeQuoteObject(quote),
+                // pokemon: {name:pokemon[0].name,
+                //     pictureUrl: pokemon[0].sprites.front_default,
+                //     gifUrl: pokemon[1].data[0].images.fixed_height_still.url}
+                pokemon: this.makePokemonObject(pokemon),
+                about: this.makeAboutObject(about)
               };
 
 
